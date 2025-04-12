@@ -9,10 +9,14 @@ function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    async function loginHandler(e) {
+    async function signupHandler(e) {
         e.preventDefault();
+        if(!name || !email || !password){
+            alert("fill all fields");
+            return;
+        }
         try {
-            const user = await axios.post("http://localhost:3000/signup",{
+            const response = await axios.post("http://localhost:3000/signup",{
                 name,
                 email,
                 password
@@ -21,19 +25,20 @@ function Signup() {
                     "Content-Type" : "application/json"
                 }
             })
-            if(user){
+            if(response.status  === 200 || response.status === 201){
                 console.log(JSON.stringify(user))
                 alert("Signed Up")
             }
         } catch (error) {
             console.log("err is " + error)
+            alert("Signup failed")
         }
         
     }
 
     return (
         <div>
-            <form onSubmit={loginHandler}>
+            <form onSubmit={signupHandler}>
                 <div >
                     <Input placeholder="Name" value={name} onchange={(e)=>setName(e.target.value)} />
                     <Input placeholder="Email" value={email} onchange={(e)=>setEmail(e.target.value)} />
