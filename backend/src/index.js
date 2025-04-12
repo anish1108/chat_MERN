@@ -8,9 +8,11 @@ import generateToken from "./utils/tokengenerator.js";
 import validateUser from "./middlewares/validateUser.js";
 import cookieParser from "cookie-parser";
 import Message from "./db/messageSchema.js";
+import cors from "cors"
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
