@@ -37,17 +37,29 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({
       email,
     });
-    console.log(email);
-    console.log(password);
-    console.log(`user is ${user}`);
+    // console.log(email);
+    // console.log(password);
+    // console.log(`user is ${user}`);
     if (!user) {
-      res.send("no user" + user);
+      res.status(500).json({
+        error: "no user found"
+      } ); 
     }
     if (user.password === password) {
-      generateToken(user._id, res);
+      const token = generateToken(user._id, res);
+      if(!token){
+        res.status(500).json({
+          message: "token is null"
+        })
+      }
+      res.send(user)
     }
+    res.status(500).json({
+      message: "wrong cred"
+    })
   } catch (error) {
     console.log(error);
+    res.send("somethisng wrong")
   }
 });
 
