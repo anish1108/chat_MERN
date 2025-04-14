@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../db/userSchema.js";
+import mongoose from "mongoose";
 
 let validateUser = async(req, res, next)=>{
     try {
@@ -7,27 +8,26 @@ let validateUser = async(req, res, next)=>{
         const token = req.cookies.token;
         
         if(!token){
-            res.send("not valid");
+            return res.status(500).json({message: "not valid hehege"});
         }
-        console.log(token)
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(!decoded){
-            res.send("not valid2")
+            return res.status(500).json({message: "not valid2"})
         }
         // console.log(`decode is ${JSON.stringify(decoded)}`)
         
         const user = await User.findById(decoded.userId);
         if(!user){
-            res.send("not valid3");
+            return res.status(500).json({message: "not valid3"});
         }
 
         req.user = user;
+        console.log(`req.user is ${req.user}`)
         next();
 
-
-
     } catch (error) {
-        res.send(`error is ${error}`)
+        res.status(500).json({message: `error is hehe ${error}`})
     }
 }
 

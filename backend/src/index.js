@@ -8,11 +8,15 @@ import generateToken from "./utils/tokengenerator.js";
 import validateUser from "./middlewares/validateUser.js";
 import cookieParser from "cookie-parser";
 import Message from "./db/messageSchema.js";
-import cors from "cors"
+import cors from "cors";
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
+// app.use(cors());
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -37,29 +41,31 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({
       email,
     });
-    // console.log(email);
-    // console.log(password);
-    // console.log(`user is ${user}`);
+
     if (!user) {
       res.status(500).json({
-        error: "no user found"
-      } ); 
+        error: "no user found",
+      });
     }
     if (user.password === password) {
       const token = generateToken(user._id, res);
-      if(!token){
+      if (!token) {
         res.status(500).json({
-          message: "token is null"
-        })
+          message: "token is null",
+        });
       }
-      res.send(user)
+      // localStorage.setItem("token", token)
+      res.send(user);
+    }else{
+      res.status(500).json({
+        message: "wrong cred",
+      });
+
     }
-    res.status(500).json({
-      message: "wrong cred"
-    })
+    
   } catch (error) {
     console.log(error);
-    res.send("somethisng wrong")
+    res.status(500).json({message: "somethisng wrong"});
   }
 });
 
@@ -68,7 +74,7 @@ app.get("/users", validateUser, async (req, res) => {
     const myid = req.user._id;
     const users = await User.find({ _id: { $ne: myid } }).select(-"password");
     if (!users) {
-      res.send("no user found");
+      res.status(500).json({ message: "no user found" });
     }
     res.send(users);
   } catch (error) {
@@ -80,8 +86,11 @@ app.get("/users", validateUser, async (req, res) => {
 });
 
 app.get("/messages/:userId", validateUser, async (req, res) => {
-  const receiverId = req.params.userId;
-  const senderId = req.user.email;
+
+  const receiverId =new mongoose.Types.ObjectId( req.params.userId);
+  const senderId =  req.user._id;
+  // console.log(`receiver is ${receiverId}`);
+  // console.log(`sender is ${senderId}`)
   try {
     const messages = await Message.find({
       $or: [
@@ -90,11 +99,12 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
       ],
     });
     if (!messages) {
-      res.send("something is wrong");
+      res.status(500).json({message:"something is wrong"});
     }
     res.send(messages);
   } catch (error) {
-    res.send(error);
+    console.log("error is " + error)
+    res.status(500).json({message:"somthing is wrong"});
   }
 });
 

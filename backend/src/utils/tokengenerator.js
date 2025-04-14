@@ -8,10 +8,8 @@ function generateToken(userId, res){
                 message: "token not generated"
             })
         }
-        res.cookie("token", token, {httpOnly:true, secure: true})
-        // res.json({
-        //     message: "token generated"+ token
-        // })
+        res.cookie("token", token, {httpOnly:true, secure: process.env.NODE_ENV === "production"})
+
         return token;
     } catch (error) {
         console.log("error in generating token")
