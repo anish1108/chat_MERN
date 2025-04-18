@@ -1,5 +1,7 @@
 import express from "express";
-const app = express();
+import {createServer } from "http";
+import { Server } from "socket.io";
+
 import mongoose from "mongoose";
 import User from "./db/userSchema.js";
 import "dotenv/config";
@@ -10,13 +12,20 @@ import cookieParser from "cookie-parser";
 import Message from "./db/messageSchema.js";
 import cors from "cors";
 
+const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {});
+
+io.on("connection", (socket)=>{
+  console.log("socket is connected")
+})
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
 }))
-// app.use(cors());
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -108,7 +117,7 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+httpServer.listen(3000, () => {
   console.log("port is started at 3000");
   connectdb();
 });
