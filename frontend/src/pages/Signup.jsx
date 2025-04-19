@@ -3,6 +3,7 @@ import Input from '../components/Input'
 import Button from '../components/Button'
 import axios from "axios"
 
+
 function Signup() {
 
     const [name, setName] = useState("");
@@ -40,9 +41,9 @@ function Signup() {
         <div>
             <form onSubmit={signupHandler}>
                 <div >
-                    <Input placeholder="Name" value={name} onchange={(e)=>setName(e.target.value)} />
-                    <Input placeholder="Email" value={email} onchange={(e)=>setEmail(e.target.value)} />
-                    <Input placeholder="Password" value={password} onchange={(e)=>setPassword(e.target.value)}/>
+                    <Input placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)} />
+                    <Input placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} />
+                    <Input placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
                 </div>
                 <Button type="submit" name="Submit" />
             </form>

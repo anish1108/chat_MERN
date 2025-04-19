@@ -3,9 +3,21 @@ import Login from "./pages/Login"
 import { Routes, Route } from "react-router-dom"
 import Signup from "./pages/Signup"
 import ChatContainer from "./pages/chatContainer"
+import { useEffect } from "react"
+import {io} from "socket.io-client"
 
 
 function App() {
+  useEffect(() => {
+    console.log("ok is running")
+    const socket = io("http://localhost:3000",{
+      withCredentials: true
+    })
+    
+    
+   
+  }, [])
+  
 
   return (
     <>
