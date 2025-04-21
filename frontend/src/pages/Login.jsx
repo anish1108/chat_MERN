@@ -1,40 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { io } from "socket.io-client"
+import { Userstore } from '../store/userStore';
 
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [currentUser, setcurrentuser] = useState([])
+
+    const { loginUser, currentsender, socket} = Userstore()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log(`current sender is ${JSON.stringify(currentsender)}`)
+        // console.log(`socket is ${JSON.stringify(socket)}`)
+        if(currentsender){
+            navigate("/home")
+        }
+      }, [currentsender])
 
     async function loginhandler(e){
         e.preventDefault();
-        try {
-            const response = await axios.post("http://localhost:3000/login",{
-                email,
-                password
-            },{
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                withCredentials: true
-            })
-            
-            if(response){
-                console.log(`response is ${JSON.stringify( response.data)}`)
-                setcurrentuser(JSON.stringify( response.data))
-                alert(`You are logged in as ${ response.data.name}`)
-                navigate("/home")
-            }
-
-        } catch (error) {
-            console.log(error)
-            alert("login failed")
-        }
+        loginUser(email, password)
+        
     }
 
     return (

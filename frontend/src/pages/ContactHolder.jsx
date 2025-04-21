@@ -1,9 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { Userstore } from '../store/userStore'
 
 function ContactHolder() {
     // const resp = ["anish", "kumar", "prasad"]
     const [users, setUsers] = useState([])
+    // const [receiver, setReceiver] = useState(null)
+
+    const {currentReceiver, receiver} = Userstore()
 
     async function contactLoader(){
         try {
@@ -24,12 +28,19 @@ function ContactHolder() {
     useEffect(() => {
       contactLoader()
     }, [])
+
+    useEffect(()=>{
+        console.log(`current recier is ${receiver}`)
+    }, [currentReceiver])
     
   return (
     <div>
         {
-            users.map((ele)=>{
-                return (<div key={ele._id}>{ele.name}</div>)
+            users.map((user)=>{
+                return (<div key={user._id}
+                    onClick={() => currentReceiver(user)}
+                >{user.name}
+                </div>)
             })
         }
     </div>

@@ -23,7 +23,7 @@ let validateUser = async(req, res, next)=>{
         }
 
         req.user = user;
-        console.log(`req.user is ${req.user}`)
+        // console.log(`req.user is ${req.user}`)
         next();
 
     } catch (error) {
