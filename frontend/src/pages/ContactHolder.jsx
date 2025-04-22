@@ -25,20 +25,24 @@ function ContactHolder() {
         }   
     }
 
+    const clickhandler = (user) => {
+        currentReceiver(user);
+    }
+
     useEffect(() => {
       contactLoader()
     }, [])
 
     useEffect(()=>{
-        console.log(`current recier is ${receiver}`)
-    }, [currentReceiver])
+        console.log(`current recier is ${receiver.name}`)
+    }, [receiver])
     
   return (
     <div>
         {
             users.map((user)=>{
                 return (<div key={user._id}
-                    onClick={() => currentReceiver(user)}
+                    onClick={() => clickhandler(user)}
                 >{user.name}
                 </div>)
             })

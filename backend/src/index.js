@@ -24,7 +24,7 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket)=>{
-  console.log(`socket is connected ${socket.id}`)
+  console.log(`socket is connectedd ${socket.id}`)
   socket.on("message",(mess)=>{
     console.log("message is tis " + mess.clg)
     socket.emit("message", mess)

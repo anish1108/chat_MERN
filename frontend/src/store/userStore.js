@@ -37,7 +37,7 @@ export const Userstore = create((set, get) => ({
   },
 
   currentReceiver: (user)=>{
-    set({ receiver: user.email})
+    set({ receiver: user})
   },
 
 
