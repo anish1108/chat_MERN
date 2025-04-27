@@ -6,7 +6,7 @@ export const Userstore = create((set, get) => ({
   currentsender: null,
   receiver: {},
   socket: null,
-  allmessages: null,
+  allmessages: [],
 
   loginUser: async (email, password) => {
     try {
@@ -36,8 +36,8 @@ export const Userstore = create((set, get) => ({
   },
 
   currentReceiver: (user) => {
-    set({ receiver: user }); 
-    get().restoreMessages();
+    set({ receiver: user });
+    // get().restoreMessages();
   },
 
   connectToSocket: () => {
@@ -49,16 +49,38 @@ export const Userstore = create((set, get) => ({
   },
 
   restoreMessages: async () => {
-    const userId = receiver._id;
-    console.log(`userid si ${userId}`);
+    // const userId = receiver._id;
+    const {receiver, allmessages} = get();
+    console.log(`userid si ${receiver._id}`);
     try {
       const response = await axios.get(
-        `http://localhost:3000/messages/${userId}`,
+        `http://localhost:3000/messages/${receiver._id}`,
         {
           withCredentials: true,
         }
       );
-      set({allmessages: response.data})
+      console.log(`restor eka respone si ${response}`)
+      set({ allmessages: [...allmessages, response.data]});
+      console.log(`response isss ${JSON.stringify(response.data)}`);
+    } catch (error) {
+      console.log("error is hrergghgh " + error);
+    }
+  },
+
+  sendMessage: async (message) => {
+    const { receiver} = get();
+    console.log(`receiver si ${JSON.stringify(receiver)}`);
+    console.log(`receiver si ${JSON.stringify(receiver._id)}`);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/sendMessage/${receiver._id}`, {message},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
       console.log(`response is ${JSON.stringify(response.data)}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);

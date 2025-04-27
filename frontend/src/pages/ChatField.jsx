@@ -1,30 +1,20 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import Input from "../components/Input"
+import Button from "../components/Button"
 import { Userstore } from '../store/userStore'
 
 function ChatField() {
 
     const resp = ["anish", "kumar", "prasad"]
-    const [messages, setMessages] = useState([])
-    const {receiver, allmessages} = Userstore();
+    const [message, setMessage] = useState("")
+    const {receiver, allmessages, sendMessage} = Userstore();
 
-    // async function messageHandler(){
-    //     const userId = receiver._id
-    //     console.log(`userid si ${userId}`)
-    //     try {
-    //         const response = await axios.get(`http://localhost:3000/messages/${userId}`,{
-    //             withCredentials: true
-    //         })
-    //         console.log(`response is ${JSON.stringify(response.data)}`)
-    //     } catch (error) {
-    //         console.log("error is hrergghgh " + error)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //   messageHandler();
-    // }, [])
+    const sendMessagehandler = (e)=>{
+        e.preventDefault()
+        console.log(`all messagfe ais ${allmessages}`)
+        sendMessage(message);
+    }
     
 
   return (
@@ -35,10 +25,15 @@ function ChatField() {
         </nav>
         <div>
             
-            helllooo
+            {
+                allmessages.map((message)=>{
+                    return ( <div key={Math.random()}>{message}</div> )
+                })
+            }
         </div>
         <div>
-            <Input/>
+            <Input placeholder={"Enter Message"} value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
+            <Button name={"Send"} type={"submit"} onclick={sendMessagehandler}/>
         </div>
     </div>
   )
