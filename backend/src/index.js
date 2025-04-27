@@ -11,6 +11,7 @@ import validateUser from "./middlewares/validateUser.js";
 import cookieParser from "cookie-parser";
 import Message from "./db/messageSchema.js";
 import cors from "cors";
+import { json } from "stream/consumers";
 
 const app = express();
 const httpServer = createServer(app);
@@ -117,7 +118,7 @@ app.get("/users", validateUser, async (req, res) => {
 
 app.get("/messages/:userId", validateUser, async (req, res) => {
 
-  const receiverId =new mongoose.Types.ObjectId( req.params.userId);
+  const receiverId =req.params.userId;
   const senderId =  req.user._id;
   // console.log(`receiver is ${receiverId}`);
   // console.log(`sender is ${senderId}`)
@@ -137,6 +138,44 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
     res.status(500).json({message:"somthing is wrong"});
   }
 });
+
+app.post("/sendMessage/:id", validateUser, async (req, res) =>{
+  const message = req.body.message;
+  const senderId = req.user._id;
+  const receiverId = req.params.id;
+  console.log(`senederi is ${senderId}`)
+  console.log(`receir sii ${receiverId}`)
+  console.log(`mesage si ${message}`)
+
+  try {
+    // Optional: Save the message to the database
+    const newMessage = await Message.create({
+        senderId,
+        receiverId,
+        message,
+    });
+
+    // res.json({
+    //     message: "Message sent successfully",
+    //     data: newMessage, // Return the saved message (optional)
+    // });
+} catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).json({ message: "Something went wrong" });
+}
+
+  const receverSocketId = getreceiverSocket(receiverId)
+  if(receverSocketId){
+    io.to(getreceiverSocket).emit("new_message", message)
+  }
+
+  // res.status(201).json(message)
+
+  res.send({
+    json: ` message is this `
+  })
+ 
+})
 
 httpServer.listen(3000, () => {
   console.log("port is started at 3000");

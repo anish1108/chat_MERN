@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 let validateUser = async(req, res, next)=>{
     try {
-        // console.log(req.cookies)
+        console.log(req.cookies)
         const token = req.cookies.token;
         
         if(!token){
@@ -15,7 +15,7 @@ let validateUser = async(req, res, next)=>{
         if(!decoded){
             return res.status(500).json({message: "not valid2"})
         }
-        // console.log(`decode is ${JSON.stringify(decoded)}`)
+        console.log(`decode is ${JSON.stringify(decoded)}`)
         
         const user = await User.findById(decoded.userId);
         if(!user){
@@ -24,6 +24,7 @@ let validateUser = async(req, res, next)=>{
 
         req.user = user;
         // console.log(`req.user is ${req.user}`)
+        console.log("valideated")
         next();
 
     } catch (error) {
