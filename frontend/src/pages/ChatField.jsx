@@ -7,33 +7,35 @@ function ChatField() {
 
     const resp = ["anish", "kumar", "prasad"]
     const [messages, setMessages] = useState([])
-    const {receiver} = Userstore();
+    const {receiver, allmessages} = Userstore();
 
-    async function messageHandler(){
-        const userId = receiver._id
-        console.log(`userid si ${userId}`)
-        try {
-            const response = await axios.get(`http://localhost:3000/messages/${userId}`,{
-                withCredentials: true
-            })
-            console.log(`response is ${JSON.stringify(response.data)}`)
-        } catch (error) {
-            console.log("error is hrergghgh " + error)
-        }
-    }
+    // async function messageHandler(){
+    //     const userId = receiver._id
+    //     console.log(`userid si ${userId}`)
+    //     try {
+    //         const response = await axios.get(`http://localhost:3000/messages/${userId}`,{
+    //             withCredentials: true
+    //         })
+    //         console.log(`response is ${JSON.stringify(response.data)}`)
+    //     } catch (error) {
+    //         console.log("error is hrergghgh " + error)
+    //     }
+    // }
 
-    useEffect(() => {
-      messageHandler();
-    }, [])
+    // useEffect(() => {
+    //   messageHandler();
+    // }, [])
     
 
   return (
     <div>
         <nav>
-            {receiver.name}
+            {/* {receiver.name} */}
+            name
         </nav>
         <div>
-            chats
+            
+            helllooo
         </div>
         <div>
             <Input/>

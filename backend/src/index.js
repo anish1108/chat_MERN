@@ -23,8 +23,18 @@ const io = new Server(httpServer, {
   }
 });
 
+const getreceiverSocket = (userId)=>{
+  return userSockets[userId]
+}
+
+const userSockets = {}
+
 io.on("connection", (socket)=>{
   console.log(`socket is connectedd ${socket.id}`)
+  const userId = socket.handshake.query.userId;
+  if(userId){
+    userSockets[userId] = socket.id;
+  }
   socket.on("message",(mess)=>{
     console.log("message is tis " + mess.clg)
     socket.emit("message", mess)

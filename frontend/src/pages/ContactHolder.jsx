@@ -34,7 +34,8 @@ function ContactHolder() {
     }, [])
 
     useEffect(()=>{
-        console.log(`current recier is ${receiver.name}`)
+        // console.log(`current recier is ${JSON.stringify(receiver.name)}`)
+        console.log(receiver.name)
     }, [receiver])
     
   return (
