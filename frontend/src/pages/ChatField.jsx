@@ -8,30 +8,41 @@ function ChatField() {
 
     const resp = ["anish", "kumar", "prasad"]
     const [message, setMessage] = useState("")
-    const {receiver, allmessages, sendMessage} = Userstore();
+    const {receiver, allmessages, sendMessage, currentReceiver, restoreMessages} = Userstore();
 
     const sendMessagehandler = (e)=>{
         e.preventDefault()
         console.log(`all messagfe ais ${allmessages}`)
         sendMessage(message);
+        setMessage("")
     }
+
+    useEffect(() => {
+      if(receiver){
+        console.log(`fetching message of ${receiver.name}`)
+        restoreMessages();
+      }
+    }, [receiver])
     
 
   return (
     <div>
         <nav>
-            {/* {receiver.name} */}
-            name
+            {receiver.name}
+            
         </nav>
         <div>
-            
             {
-                allmessages.map((message)=>{
-                    return ( <div key={Math.random()}>{message}</div> )
-                })
+                allmessages.length > 0 ? (
+                    allmessages.map((msg, index)=>(
+                        <div key={index}>{msg}</div> 
+                    ))
+                ) : (
+                    <p>No messages</p>
+                )
             }
         </div>
-        <div>
+        <div className='flex'>
             <Input placeholder={"Enter Message"} value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
             <Button name={"Send"} type={"submit"} onclick={sendMessagehandler}/>
         </div>

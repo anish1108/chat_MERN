@@ -37,7 +37,7 @@ export const Userstore = create((set, get) => ({
 
   currentReceiver: (user) => {
     set({ receiver: user });
-    // get().restoreMessages();
+    get().restoreMessages();
   },
 
   connectToSocket: () => {
@@ -59,9 +59,15 @@ export const Userstore = create((set, get) => ({
           withCredentials: true,
         }
       );
-      console.log(`restor eka respone si ${response}`)
-      set({ allmessages: [...allmessages, response.data]});
-      console.log(`response isss ${JSON.stringify(response.data)}`);
+      // console.log(`restor eka respone si ${JSON.stringify(response.data[0]._id)}`)
+      set({ allmessages: []});
+      let temp = response.data.map((msg) => msg.text)
+      // temp.map((msg)=>{
+      //   // console.log(`rssss is ${msg._id}`)
+      //   allmessages.push(msg.text)
+      // })
+      set({allmessages: temp})
+      console.log(`allmessagefesjf isss ${allmessages}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);
     }
@@ -81,6 +87,10 @@ export const Userstore = create((set, get) => ({
           withCredentials: true,
         }
       );
+      // set({allmessages: [...allmessages, response.data]})
+      set((state) => ({
+        allmessages: [...state.allmessages, response.data]
+      }))
       console.log(`response is ${JSON.stringify(response.data)}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);

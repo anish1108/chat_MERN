@@ -132,6 +132,10 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
     if (!messages) {
       res.status(500).json({message:"something is wrong"});
     }
+    // console.log(`message is giving me ${JSON.stringify(messages)}`)
+    messages.map((msg)=>{
+      console.log(`msg is ${msg._id}`)
+    })
     res.send(messages);
   } catch (error) {
     console.log("error is " + error)
@@ -152,7 +156,7 @@ app.post("/sendMessage/:id", validateUser, async (req, res) =>{
     const newMessage = await Message.create({
         senderId,
         receiverId,
-        message,
+        text: message,
     });
 
     // res.json({
@@ -171,9 +175,7 @@ app.post("/sendMessage/:id", validateUser, async (req, res) =>{
 
   // res.status(201).json(message)
 
-  res.send({
-    json: ` message is this `
-  })
+  res.send(message)
  
 })
 
