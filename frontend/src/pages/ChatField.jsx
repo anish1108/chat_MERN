@@ -8,27 +8,47 @@ function ChatField() {
 
     const resp = ["anish", "kumar", "prasad"]
     const [message, setMessage] = useState("")
-    const {receiver, allmessages, sendMessage, currentReceiver, restoreMessages} = Userstore();
+    const {receiver, allmessages, sendMessage, currentReceiver, restoreMessages, socket} = Userstore();
 
-    const sendMessagehandler = (e)=>{
+    const sendMessagehandler = async (e)=>{
         e.preventDefault()
         console.log(`all messagfe ais ${allmessages}`)
-        sendMessage(message);
+        const res = await sendMessage(message);
+        Userstore.setState((state)=>({
+            allmessages: [...state.allmessages, message]
+        }))
+
+        socket.emit("newMessage", {
+            message,
+            receiverId : receiver._id
+        })
         setMessage("")
+
+        
     }
 
-    useEffect(() => {
-      if(receiver){
-        console.log(`fetching message of ${receiver.name}`)
-        restoreMessages();
-      }
-    }, [receiver])
+    useEffect(()=>{
+
+        const handleReceiveMsg = (msg)=>{
+            console.log(`received message ${msg}`)
+            Userstore.setState((state)=>({
+                allmessages: [...state.allmessages, msg]
+            }))
+        }
+     
+        socket.on("receiveMsg", handleReceiveMsg);
+        return ()=> {
+            socket.off("receiveMsg", handleReceiveMsg)
+        }
+    },[socket])
     
 
   return (
     <div>
         <nav>
-            {receiver.name}
+        
+            {` ${receiver.name}` }
+            
             
         </nav>
         <div>
@@ -39,7 +59,7 @@ function ChatField() {
                     ))
                 ) : (
                     <p>No messages</p>
-                )
+                ) 
             }
         </div>
         <div className='flex'>

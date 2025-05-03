@@ -41,11 +41,25 @@ export const Userstore = create((set, get) => ({
   },
 
   connectToSocket: () => {
+    const {currentsender} = get();
+    console.log(`snedde f ${currentsender._id}`)
     const socket = io("http://localhost:3000", {
       withCredentials: true,
+      query: {
+        userId: currentsender._id
+      }
+      
+      
     });
     socket.connect();
     set({ socket: socket });
+
+    socket.on("newMessage", (message)=>{
+      set((state) => ({
+        allmessages: [...state.allmessages, message]
+      }))
+
+    })
   },
 
   restoreMessages: async () => {
@@ -88,9 +102,18 @@ export const Userstore = create((set, get) => ({
         }
       );
       // set({allmessages: [...allmessages, response.data]})
-      set((state) => ({
-        allmessages: [...state.allmessages, response.data]
-      }))
+
+      // const socket = get().socket;
+
+      // socket.on("newMessage", (message)=>{
+      //   set((state) => ({
+      //     allmessages: [...state.allmessages, message]
+      //   }))
+
+      // })
+      console.log(`response.text ${message}`)
+      // socket.emit("newbie", message);
+      
       console.log(`response is ${JSON.stringify(response.data)}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);

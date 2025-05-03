@@ -31,15 +31,45 @@ const getreceiverSocket = (userId)=>{
 const userSockets = {}
 
 io.on("connection", (socket)=>{
+  
   console.log(`socket is connectedd ${socket.id}`)
+  // console.log(socket.handshake)
   const userId = socket.handshake.query.userId;
   if(userId){
     userSockets[userId] = socket.id;
+    console.log(`user ${userId} is connecred with socket id ${socket.id}`)
+    console.log(userSockets)
+  }else{
+    console.log("not found")
+    return;
   }
-  socket.on("message",(mess)=>{
-    console.log("message is tis " + mess.clg)
-    socket.emit("message", mess)
-  }) 
+
+  socket.on("newbie",(msg)=>{
+    console.log(`newbie msg is ${msg}`)
+  })
+
+  socket.on("newMessage", (msg)=>{
+    console.log(`nweMessage is ${JSON.stringify(msg)}`)
+
+    const receverSocketId = getreceiverSocket(msg.receiverId)
+    console.log(`receverSocketId is ${receverSocketId}`)
+    console.log(`receverSocketId is ${receverSocketId}`)
+  if(receverSocketId){
+    io.to(receverSocketId).emit("receiveMsg", msg.message)
+  }
+
+    // io.emit("receiveMsg", msg)
+  })
+  
+  // socket.on(("disconnect", ()=>{
+  //   console.log(`scoket is disconeted ${socket.id}`)
+  //   for(const [key, value] of Object.entries(userSockets)){
+  //     if(value === socket.id){
+  //       delete userSockets[key];
+  //       break;
+  //     }
+  //   }
+  // }))
 })
 
 app.use(express.json());
@@ -133,9 +163,9 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
       res.status(500).json({message:"something is wrong"});
     }
     // console.log(`message is giving me ${JSON.stringify(messages)}`)
-    messages.map((msg)=>{
-      console.log(`msg is ${msg._id}`)
-    })
+    // messages.map((msg)=>{
+    //   console.log(`msg is ${msg._id}`)
+    // })
     res.send(messages);
   } catch (error) {
     console.log("error is " + error)
@@ -152,31 +182,29 @@ app.post("/sendMessage/:id", validateUser, async (req, res) =>{
   console.log(`mesage si ${message}`)
 
   try {
-    // Optional: Save the message to the database
     const newMessage = await Message.create({
         senderId,
         receiverId,
         text: message,
     });
-
-    // res.json({
-    //     message: "Message sent successfully",
-    //     data: newMessage, // Return the saved message (optional)
-    // });
+    console.log(`receiverId is ${receiverId}`)
+  //   const receverSocketId = getreceiverSocket(receiverId)
+  //   console.log(`receverSocketId is ${receverSocketId}`)
+  // if(receverSocketId){
+  //   io.to(receverSocketId).emit("newMessage", newMessage)
+  // }
+  res.status(201).json({
+    message: "Message saved to database",
+    data: {
+        senderId,
+        receiverId,
+        text: message,
+    },
+});
 } catch (error) {
     console.error("Error sending message:", error);
     res.status(500).json({ message: "Something went wrong" });
 }
-
-  const receverSocketId = getreceiverSocket(receiverId)
-  if(receverSocketId){
-    io.to(getreceiverSocket).emit("new_message", message)
-  }
-
-  // res.status(201).json(message)
-
-  res.send(message)
- 
 })
 
 httpServer.listen(3000, () => {
