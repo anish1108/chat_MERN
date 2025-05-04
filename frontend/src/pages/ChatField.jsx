@@ -44,25 +44,25 @@ function ChatField() {
     
 
   return (
-    <div>
+    <div className='grid content-between h-screen p-2'>
         <nav>
         
             {` ${receiver.name}` }
             
             
         </nav>
-        <div>
+        <div >
             {
                 allmessages.length > 0 ? (
                     allmessages.map((msg, index)=>(
-                        <div key={index}>{msg}</div> 
+                        <div className='bg-green-100 border-2 border-amber-500 rounded-sm m-1.5 px-1 w-fit' key={index}>{msg}</div> 
                     ))
                 ) : (
                     <p>No messages</p>
                 ) 
             }
         </div>
-        <div className='flex'>
+        <div className='flex w-full max-w-sm items-center space-x-2 '>
             <Input placeholder={"Enter Message"} value={message} onChange={(e)=>{setMessage(e.target.value)}}/>
             <Button name={"Send"} type={"submit"} onclick={sendMessagehandler}/>
         </div>

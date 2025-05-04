@@ -42,7 +42,7 @@ function ContactHolder() {
     <div>
         {
             users.map((user)=>{
-                return (<div key={user._id}
+                return (<div className='bg-amber-100 border-2 border-green-500 rounded-sm m-1.5 px-1 ' key={user._id}
                     onClick={() => clickhandler(user)}
                 >{user.name}
                 </div>)
