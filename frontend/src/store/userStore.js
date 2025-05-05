@@ -75,10 +75,13 @@ export const Userstore = create((set, get) => ({
       );
       // console.log(`restor eka respone si ${JSON.stringify(response.data[0]._id)}`)
       set({ allmessages: []});
-      let temp = response.data.map((msg) => msg.text)
+      let temp = response.data.map((msg) => msg)
       // temp.map((msg)=>{
-      //   // console.log(`rssss is ${msg._id}`)
+      //   console.log(`rssss is ${msg.text}`)
       //   allmessages.push(msg.text)
+      // })
+      // response.data.map((ok)=>{
+      //   console.log(`ok is ${JSON.stringify(ok)}`)
       // })
       set({allmessages: temp})
       console.log(`allmessagefesjf isss ${allmessages}`);
@@ -101,18 +104,10 @@ export const Userstore = create((set, get) => ({
           withCredentials: true,
         }
       );
-      // set({allmessages: [...allmessages, response.data]})
+      return response;
 
-      // const socket = get().socket;
-
-      // socket.on("newMessage", (message)=>{
-      //   set((state) => ({
-      //     allmessages: [...state.allmessages, message]
-      //   }))
-
-      // })
-      console.log(`response.text ${message}`)
-      // socket.emit("newbie", message);
+      
+      console.log(`response.text ${response}`)
       
       console.log(`response is ${JSON.stringify(response.data)}`);
     } catch (error) {
