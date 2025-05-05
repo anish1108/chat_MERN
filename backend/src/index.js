@@ -1,5 +1,5 @@
 import express from "express";
-import {createServer } from "http";
+import { createServer } from "http";
 import { Server } from "socket.io";
 
 import mongoose from "mongoose";
@@ -20,43 +20,37 @@ const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 
-const getreceiverSocket = (userId)=>{
-  return userSockets[userId]
-}
+const getreceiverSocket = (userId) => {
+  return userSockets[userId];
+};
 
-const userSockets = {}
+const userSockets = {};
 
-io.on("connection", (socket)=>{
-  
-  console.log(`socket is connectedd ${socket.id}`)
+io.on("connection", (socket) => {
+  console.log(`socket is connectedd ${socket.id}`);
   // console.log(socket.handshake)
   const userId = socket.handshake.query.userId;
-  if(userId){
+  if (userId) {
     userSockets[userId] = socket.id;
-    console.log(`user ${userId} is connecred with socket id ${socket.id}`)
-    console.log(userSockets)
-  }else{
-    console.log("not found")
+    console.log(`user ${userId} is connecred with socket id ${socket.id}`);
+    console.log(userSockets);
+  } else {
+    console.log("not found");
     return;
   }
 
-  socket.on("newMessage", (data)=>{
-    console.log(`nweMessage is ${JSON.stringify(data)}`)
+  socket.on("newMessage", (data) => {
+    const receverSocketId = getreceiverSocket(data.data.receiverId);
+    console.log(`receverSocketId is ${receverSocketId}`);
+    if (receverSocketId) {
+      io.to(receverSocketId).emit("receiveMsg", data);
+    }
+  });
 
-    const receverSocketId = getreceiverSocket(data.data.receiverId)
-    console.log(`receverSocketId is ${receverSocketId}`)
-    console.log(`receverSocketId is ${receverSocketId}`)
-  if(receverSocketId){
-    io.to(receverSocketId).emit("receiveMsg", data)
-  }
-
-    // io.emit("receiveMsg", msg)
-  })
-  
   // socket.on(("disconnect", ()=>{
   //   console.log(`scoket is disconeted ${socket.id}`)
   //   for(const [key, value] of Object.entries(userSockets)){
@@ -66,14 +60,16 @@ io.on("connection", (socket)=>{
   //     }
   //   }
   // }))
-})
+});
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
+app.use(
+  cors({
     origin: "http://localhost:5173",
     credentials: true,
-}))
+  })
+);
 
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -113,16 +109,14 @@ app.post("/login", async (req, res) => {
       }
       // localStorage.setItem("token", token)
       res.send(user);
-    }else{
+    } else {
       res.status(500).json({
         message: "wrong cred",
       });
-
     }
-    
   } catch (error) {
     console.log(error);
-    res.status(500).json({message: "somethisng wrong"});
+    res.status(500).json({ message: "somethisng wrong" });
   }
 });
 
@@ -143,11 +137,8 @@ app.get("/users", validateUser, async (req, res) => {
 });
 
 app.get("/messages/:userId", validateUser, async (req, res) => {
-
-  const receiverId =req.params.userId;
-  const senderId =  req.user._id;
-  // console.log(`receiver is ${receiverId}`);
-  // console.log(`sender is ${senderId}`)
+  const receiverId = req.params.userId;
+  const senderId = req.user._id;
   try {
     const messages = await Message.find({
       $or: [
@@ -156,47 +147,37 @@ app.get("/messages/:userId", validateUser, async (req, res) => {
       ],
     });
     if (!messages) {
-      res.status(500).json({message:"something is wrong"});
+      res.status(500).json({ message: "something is wrong" });
     }
 
     res.send(messages);
   } catch (error) {
-    console.log("error is " + error)
-    res.status(500).json({message:"somthing is wrong"});
+    console.log("error is " + error);
+    res.status(500).json({ message: "somthing is wrong" });
   }
 });
 
-app.post("/sendMessage/:id", validateUser, async (req, res) =>{
+app.post("/sendMessage/:id", validateUser, async (req, res) => {
   const message = req.body.message;
   const senderId = req.user._id;
   const receiverId = req.params.id;
-  console.log(`senederi is ${senderId}`)
-  console.log(`receir sii ${receiverId}`)
-  console.log(`mesage si ${message}`)
+  console.log(`senederi is ${senderId}`);
+  console.log(`receir sii ${receiverId}`);
+  console.log(`mesage si ${message}`);
 
   try {
     const newMessage = await Message.create({
-        senderId,
-        receiverId,
-        text: message,
+      senderId,
+      receiverId,
+      text: message,
     });
-    console.log(`receiverId is ${receiverId}`)
-    console.log(`new message is ${newMessage}`)
 
-//   res.status(201).json({
-//     message: "Message saved to database",
-//     data: {
-//         senderId,
-//         receiverId,
-//         text: message,
-//     },
-// });
-res.status(201).send(newMessage)
-} catch (error) {
+    res.status(201).send(newMessage);
+  } catch (error) {
     console.error("Error sending message:", error);
     res.status(500).json({ message: "Something went wrong" });
-}
-})
+  }
+});
 
 httpServer.listen(3000, () => {
   console.log("port is started at 3000");
