@@ -179,6 +179,26 @@ app.post("/sendMessage/:id", validateUser, async (req, res) => {
   }
 });
 
+app.get("/validateUser",validateUser, (req, res)=>{
+  try {
+    res.send(req.user)
+  } catch (error) {
+    console.log("please login")
+  }
+})
+
+app.get("/logout", (req, res)=>{
+  try {
+    res.cookie("token","",{maxAge:0})
+    res.status(201).json({
+      message: "successfully logout"
+    })
+  } catch (error) {
+    console.log(`error in logging out ${error}`)
+    res.status(502).json({message:"error hai"})
+  }
+})
+
 httpServer.listen(3000, () => {
   console.log("port is started at 3000");
   connectdb();

@@ -8,7 +8,7 @@ function Input({ placeholder, onChange, value }) {
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        className="w-full h-full outline-none text-gray-800 placeholder-gray-500 bg-transparent"
+        className="w-full h-full outline-none text-white placeholder-gray-300 bg-transparent"
       />
     </span>
   );

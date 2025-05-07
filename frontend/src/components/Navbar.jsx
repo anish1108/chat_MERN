@@ -3,15 +3,15 @@ import { Userstore } from '../store/userStore'
 
 function Navbar() {
 
-  const {currentsender} = Userstore()
+  const {currentsender, logoutHandler} = Userstore()
+
+  
   return (
     <div>
       Navbar
-      {/* <div>
-        
-        
-          {currentsender}
-      </div> */}
+      <div className='flex justify-end'>
+        <button onClick={logoutHandler}>Logout</button>
+      </div>
     </div>
   )
 }

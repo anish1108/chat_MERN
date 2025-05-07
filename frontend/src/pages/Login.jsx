@@ -14,14 +14,6 @@ function Login() {
     const { loginUser, currentsender, socket} = Userstore()
     const navigate = useNavigate()
 
-    useEffect(() => {
-        console.log(`current sender is ${JSON.stringify(currentsender)}`)
-        // console.log(`socket is ${JSON.stringify(socket)}`)
-        if(currentsender){
-            navigate("/home")
-        }
-      }, [currentsender])
-
     async function loginhandler(e){
         e.preventDefault();
         loginUser(email, password)
@@ -29,12 +21,16 @@ function Login() {
     }
 
     return (
-        <div>
-            <form onSubmit={loginhandler}>
+        <div className='h-screen flex justify-center items-center'>
+            <div className='bg-gray-500 py-32 px-16 border-2 border-gray-400 rounded-lg space-y-4'>
+                <h1 className='text-lg text-white'>Please Login here!!!!</h1>
+            <form className='space-y-4 text-white' onSubmit={loginhandler}>
                 <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <Input placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <Button name="Submit" type="submit" />
             </form>
+            </div>
+            
 
         </div>
     )

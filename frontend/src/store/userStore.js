@@ -7,6 +7,7 @@ export const Userstore = create((set, get) => ({
   receiver: {},
   socket: null,
   allmessages: [],
+  isloggedIn: undefined,
 
   loginUser: async (email, password) => {
     try {
@@ -24,6 +25,7 @@ export const Userstore = create((set, get) => ({
         }
       );
       if (response) {
+        set({isloggedIn: true})
         set({ currentsender: response.data });
         console.log(`response is ${JSON.stringify(response.data)}`);
         alert(`You are logged in as ${response.data.name}`);
@@ -73,16 +75,9 @@ export const Userstore = create((set, get) => ({
           withCredentials: true,
         }
       );
-      // console.log(`restor eka respone si ${JSON.stringify(response.data[0]._id)}`)
       set({ allmessages: []});
       let temp = response.data.map((msg) => msg)
-      // temp.map((msg)=>{
-      //   console.log(`rssss is ${msg.text}`)
-      //   allmessages.push(msg.text)
-      // })
-      // response.data.map((ok)=>{
-      //   console.log(`ok is ${JSON.stringify(ok)}`)
-      // })
+    
       set({allmessages: temp})
       console.log(`allmessagefesjf isss ${allmessages}`);
     } catch (error) {
@@ -114,4 +109,38 @@ export const Userstore = create((set, get) => ({
       console.log("error is hrergghgh " + error);
     }
   },
+
+  validateUser: async()=>{
+    try {
+      const response = await axios.get("http://localhost:3000/validateUser", {
+        withCredentials: true
+      })
+      if(!response){
+        console.log("not found")
+        return 
+      }
+      console.log(`resss is thijf ${JSON.stringify(response)}`)
+      set({isloggedIn: true})
+      set({ currentsender: response.data})
+      get().connectToSocket();
+    } catch (error) {
+      set({isloggedIn: false})
+      console.log("something is error"+ error)
+    }
+  },
+
+  logoutHandler: async()=>{
+    try {
+      const response = await axios.get("http://localhost:3000/logout",{
+        withCredentials: true
+      })
+      set({isloggedIn: false})
+      set({currentsender: null})
+      // console.log(`isssslogingin ${isloggedIn}`)
+      console.log(`logout response ${response}`)
+      
+    } catch (error) {
+      console.log(`error is a f ${error}`)
+    }
+  }
 }));
