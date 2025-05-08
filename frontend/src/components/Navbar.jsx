@@ -7,8 +7,8 @@ function Navbar() {
 
   
   return (
-    <div>
-      Navbar
+    <div className='bg-[#232631] px-7 py-2 mx-20  rounded-2xl flex items-center justify-between '>
+      <div>Chat</div>
       <div className='flex justify-end'>
         <button onClick={logoutHandler}>Logout</button>
       </div>

@@ -1,28 +1,29 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Userstore } from '../store/userStore'
+import { CgProfile } from "react-icons/cg";
 
 function ContactHolder() {
     // const resp = ["anish", "kumar", "prasad"]
     const [users, setUsers] = useState([])
     // const [receiver, setReceiver] = useState(null)
 
-    const {currentReceiver, receiver} = Userstore()
+    const { currentReceiver, receiver } = Userstore()
 
-    async function contactLoader(){
+    async function contactLoader() {
         try {
-            
-            const response = await axios.get("http://localhost:3000/users",{
+
+            const response = await axios.get("http://localhost:3000/users", {
                 withCredentials: true
             })
-            if(!response){
+            if (!response) {
                 console.log("not found")
                 return
             }
             setUsers(response.data)
         } catch (error) {
             console.log(error)
-        }   
+        }
     }
 
     const clickhandler = (user) => {
@@ -30,26 +31,35 @@ function ContactHolder() {
     }
 
     useEffect(() => {
-      contactLoader()
+        contactLoader()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log(`current recier is ${JSON.stringify(receiver.name)}`)
         console.log(receiver.name)
     }, [receiver])
-    
-  return (
-    <div>
-        {
-            users.map((user)=>{
-                return (<div className='bg-amber-100 border-2 border-green-500 rounded-sm m-1.5 px-1 ' key={user._id}
-                    onClick={() => clickhandler(user)}
-                >{user.name}
-                </div>)
-            })
-        }
-    </div>
-  )
+
+    return (
+        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4 border-2 border-green-700 p-4'>
+            <div >
+                {
+                    users.map((user) => {
+                        return (
+                            <div className='flex items-center border-b border-[#3B3E46] hover:cursor-grab'
+                            onClick={() => clickhandler(user)}>
+                                <div className='text-3xl'> <CgProfile /></div>
+                                <div className='  m-3 px-2 py-2 ' key={user._id}
+                                    
+                                >{user.name}
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </div>
+
+    )
 }
 
 export default ContactHolder

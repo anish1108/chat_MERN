@@ -11,7 +11,7 @@ function ChatContainer() {
         setIsSidebarVisible(!isSidebarVisible);
     };
     return (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex flex-row md:flex-row">
             <button
                 className="md:hidden bg-green-500 text-white p-2"
                 onClick={toggleSidebar}
@@ -22,12 +22,12 @@ function ChatContainer() {
             <div
                 className={`${
                     isSidebarVisible ? "block" : "hidden"
-                } md:block w-full md:w-1/4  border-b-2 md:border-b-0 md:border-r-2 border-black`}
+                } md:block w-full md:w-1/4  border-b-2 md:border-b-0 md:border-r-2 border-black basis-1/3 `}
             >
                 <ContactHolder />
             </div>
 
-            <div className="flex-1 bg-gray-100">
+            <div className=" basis-2/3">
                 <ChatField />
             </div>
         </div>

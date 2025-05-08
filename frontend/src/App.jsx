@@ -33,17 +33,20 @@ function App() {
         }, [currentsender])
 
   return (
-    <>
-      <div> 
+    <div className="bg-[#3B3E46] h-screen p-0 m-0 overflow-auto text-white flex flex-col justify-center">
+      <div className="" > 
         <Navbar/>
       </div>
+      <div className="  h-[90vh]">
       <Routes>
           <Route path="/" element={isloggedIn?<ChatContainer/>: <Navigate to={"/login"}/> }/>
           <Route path="home" element={<ChatContainer/>}/>
           <Route path="login" element={<Login/>}/>
           <Route path="signup" element={<Signup/>}/>
       </Routes>
-    </>
+      </div>
+      
+    </div>
   )
 }
 
