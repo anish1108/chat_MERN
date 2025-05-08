@@ -56,7 +56,7 @@ function ChatField() {
 
 
     return (
-        <div className='bg-[#232631] rounded-2xl h-[85vh]  m-4 border-2 border-green-600 p-4 relative '>
+        <div className='bg-[#232631] rounded-2xl h-[85vh]  m-4  p-4 relative '>
             {
                 receiver.name ?
 
@@ -70,14 +70,12 @@ function ChatField() {
                             </nav>
                         </div>
 
-                        <div className='p-4 py-8 bg-[#494C54] h-[30rem] rounded-2xl overflow-y-scroll ' >
+                        <div className='p-4 py-8 bg-radial-[at_25%_25%] from-[#3B3E46] to-[#232631] to-75% h-[30rem] rounded-2xl overflow-y-scroll ' >
                             {
                                 allmessages.length > 0 ? (
-
-
                                     allmessages.map((msg, index) => (
                                         <div key={msg._id} className={`${msg.senderId == currentsender._id ? "flex justify-end" : "justify-start"}`}>
-                                                <div className={`border p-2 border-[#3B3E46] bg-[#232631] rounded-lg m-1.5 text-gray-300 px-1 w-fit`} >
+                                                <div className={`border p-1 px-4 border-[#3B3E46] bg-[#232631] rounded-lg m-1.5  text-gray-300  max-w-fit`} >
                                                     {msg.text}
                                                 </div>
                                         </div>
@@ -90,11 +88,11 @@ function ChatField() {
 
                             <div ref={messagesEndRef}></div>
                             <div className='flex  justify-center space-x-2 absolute bottom-0 w-full'>
-                                <div className='flex w-full gap-0.5'>
+                                <div className='flex w-full gap-1 py-1'>
                                     <input type="text" placeholder='Enter Messajjge' value={message} onChange={(e) => { setMessage(e.target.value) }}
                                         className=' w-[85%] h-12 bg-[#3B3E46] px-4 rounded-2xl' />
                                     <button name='Send' type='submit' onClick={sendMessagehandler}
-                                        className=' w-15 bg-[#3B3E46] rounded-2xl'
+                                        className=' w-15 bg-blue-400 rounded-2xl'
                                     >Send</button>
                                 </div>
                             </div>

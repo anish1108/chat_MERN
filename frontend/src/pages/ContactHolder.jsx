@@ -40,7 +40,7 @@ function ContactHolder() {
     }, [receiver])
 
     return (
-        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4 border-2 border-green-700 p-4'>
+        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4  p-4'>
             <div >
                 {
                     users.map((user) => {
