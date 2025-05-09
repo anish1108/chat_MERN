@@ -79,10 +79,18 @@ app.post("/signup", async (req, res) => {
       email,
       password,
     });
-    console.log("data inserted");
+    if(user){
+      console.log("data inserted");
+      const userWithoutPassword = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      };
     res.json({
-      message: "new user signed up" + user,
+      message: "new user signed up" + userWithoutPassword,
     });
+    }
+    
   } catch (error) {
     console.log(`error is ${error}`);
   }
@@ -108,7 +116,12 @@ app.post("/login", async (req, res) => {
         });
       }
       // localStorage.setItem("token", token)
-      res.send(user);
+      const userWithoutPassword = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      };
+      res.send(userWithoutPassword);
     } else {
       res.status(500).json({
         message: "wrong cred",
@@ -123,7 +136,7 @@ app.post("/login", async (req, res) => {
 app.get("/users", validateUser, async (req, res) => {
   try {
     const myid = req.user._id;
-    const users = await User.find({ _id: { $ne: myid } }).select(-"password");
+    const users = await User.find({ _id: { $ne: myid } }).select("-password");
     if (!users) {
       res.status(500).json({ message: "no user found" });
     }

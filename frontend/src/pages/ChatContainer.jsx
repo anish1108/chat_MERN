@@ -11,7 +11,7 @@ function ChatContainer() {
         setIsSidebarVisible(!isSidebarVisible);
     };
     return (
-        <div className="flex flex-row md:flex-row">
+        <div className="flex flex-row md:flex-row px-8">
             <button
                 className="md:hidden  text-white p-2"
                 onClick={toggleSidebar}

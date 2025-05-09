@@ -12,7 +12,7 @@ import { Userstore } from "./store/userStore"
 function App() {
   const navigate = useNavigate()
 
-  const {validateUser, isloggedIn, currentsender} = Userstore()
+  const {validateUser, isloggedIn, currentsender, logoutHandler} = Userstore()
 
   useEffect(()=>{
     validateUser();
@@ -25,12 +25,12 @@ function App() {
   useEffect(() => {
           console.log(`current sender is ${JSON.stringify(currentsender)}`)
           // console.log(`socket is ${JSON.stringify(socket)}`)
-          if(currentsender){
+          if(isloggedIn){
               navigate("/home")
           }else{
             navigate("/login")
           }
-        }, [currentsender])
+        }, [currentsender, logoutHandler])
 
   return (
     <div className="bg-[#3B3E46] h-screen p-0 m-0 overflow-auto text-white flex flex-col justify-center">

@@ -6,8 +6,6 @@ import { CgProfile } from "react-icons/cg";
 function ContactHolder() {
     // const resp = ["anish", "kumar", "prasad"]
     const [users, setUsers] = useState([])
-    // const [receiver, setReceiver] = useState(null)
-
     const { currentReceiver, receiver } = Userstore()
 
     async function contactLoader() {
@@ -21,6 +19,7 @@ function ContactHolder() {
                 return
             }
             setUsers(response.data)
+            // console.log(`users is ${JSON.stringify(response.data)}`)
         } catch (error) {
             console.log(error)
         }
@@ -40,15 +39,22 @@ function ContactHolder() {
     }, [receiver])
 
     return (
-        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4  p-4'>
+        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4 p-4 shadow-xl/20 shadow-blue-400 overflow-y-scroll 
+        [&::-webkit-scrollbar]:w-1
+  [&::-webkit-scrollbar-track]:rounded-full
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-full
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500'>
             <div >
                 {
-                    users.map((user) => {
+                    users.map((user, index) => {
                         return (
-                            <div className='flex items-center border-b border-[#3B3E46] hover:cursor-grab'
-                            onClick={() => clickhandler(user)}>
+                            <div className=' flex items-center border-b border-[#3B3E46] rounded-2xl px-2 hover:cursor-pointer hover:bg-[#3B3E46]'
+                            onClick={() => clickhandler(user)} key={index}>
                                 <div className='text-3xl'> <CgProfile /></div>
-                                <div className='  m-3 px-2 py-2 ' key={user._id}
+                                <div className='  m-3 p py-2 ' key={user._id}
                                     
                                 >{user.name}
                                 </div>
