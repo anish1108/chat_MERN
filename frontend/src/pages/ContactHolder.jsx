@@ -39,7 +39,7 @@ function ContactHolder() {
     }, [receiver])
 
     return (
-        <div className='bg-[#232631] h-[85vh] rounded-2xl m-4 p-4 shadow-xl/20 shadow-blue-400 overflow-y-scroll 
+        <div className='bg-[#232631] h-[73vh] w-[20vw] rounded-2xl m-4 p-4 shadow-xl/20 shadow-blue-400 overflow-y-scroll 
         [&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100

@@ -33,11 +33,14 @@ function App() {
         }, [currentsender, logoutHandler])
 
   return (
-    <div className="bg-[#3B3E46] h-screen p-0 m-0 overflow-auto text-white flex flex-col justify-center">
+    <div className="h-screen flex flex-col justify-center items-center w-screen bg-[#272b38c2]">
+
+   
+    <div className="bg-[#3B3E46] w-[90vw] h-[90vh] p-0 m-0 overflow-auto text-white flex flex-col justify-center items-center rounded-2xl">
       <div className="" > 
         <Navbar/>
       </div>
-      <div className="  h-[90vh]">
+      <div className="  h-[75vh]">
       <Routes>
           <Route path="/" element={isloggedIn?<ChatContainer/>: <Navigate to={"/login"}/> }/>
           <Route path="home" element={<ChatContainer/>}/>
@@ -45,7 +48,7 @@ function App() {
           <Route path="signup" element={<Signup/>}/>
       </Routes>
       </div>
-      
+    </div>
     </div>
   )
 }

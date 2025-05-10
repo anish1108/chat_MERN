@@ -52,7 +52,7 @@ function ChatField() {
 
 
     return (
-        <div className='bg-[#232631] rounded-2xl h-[85vh]  m-4  p-4 relative shadow-xl/20 shadow-blue-400'>
+        <div className='bg-[#232631] rounded-2xl h-[73vh] w-[60vw]  m-4  p-4 relative shadow-xl/20 shadow-blue-400'>
             {
                 receiver.name ?
 
@@ -66,7 +66,7 @@ function ChatField() {
                             </nav>
                         </div>
 
-                        <div className='p-4 py-8 bg-radial-[at_25%_25%] from-[#3B3E46] to-[#232631] to-75% h-[65vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
+                        <div className='p-4 py-8 bg-radial-[at_25%_25%] from-[#3B3E46] to-[#232631] to-75% h-[50vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -89,8 +89,8 @@ function ChatField() {
                             }
 
                             <div ref={messagesEndRef}></div>
-                            <div className='flex  justify-center  space-x-2 absolute bottom-0 '>
-                                <div className='flex w-[60vw] gap-1 py-2'>
+                            <div className='flex  justify-center items-center space-x-2 absolute bottom-0 w-[55vw]'>
+                                <div className='flex md:w-[60vw] gap-1 py-2'>
                                     <input type="text" placeholder='Enter Messajjge' value={message} onChange={(e) => { setMessage(e.target.value) }}
                                         className=' w-[85%] h-12 bg-[#3B3E46] px-4 rounded-2xl' />
                                     <button name='Send' type='submit' onClick={sendMessagehandler}
