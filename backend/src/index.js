@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import Message from "./db/messageSchema.js";
 import cors from "cors";
 import { json } from "stream/consumers";
+import path from "path";
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,7 +26,8 @@ const io = new Server(httpServer, {
 });
 
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
+const __dirname = path.resolve();
 
 const getreceiverSocket = (userId) => {
   return userSockets[userId];
@@ -214,6 +216,14 @@ app.get("/logout", (req, res)=>{
     res.status(502).json({message:"error hai"})
   }
 })
+
+if(process.env.NODE_ENV==="production"){
+  app.use(express.static(path.join(__dirname, "../frontend/dist")))
+
+  app.get("*", (req, res)=>{
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
+  })
+}
 
 httpServer.listen(PORT, () => {
   console.log("port is started at " + PORT);
