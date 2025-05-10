@@ -8,6 +8,7 @@ export const Userstore = create((set, get) => ({
   socket: null,
   allmessages: [],
   isloggedIn: undefined,
+  isSidebarVisible: false,
 
   loginUser: async (email, password) => {
     try {
@@ -27,7 +28,7 @@ export const Userstore = create((set, get) => ({
       if (response) {
         set({isloggedIn: true})
         set({ currentsender: response.data });
-        console.log(`response is ${JSON.stringify(response.data)}`);
+        // console.log(`response is ${JSON.stringify(response.data)}`);
         alert(`You are logged in as ${response.data.name}`);
         get().connectToSocket();
       }
@@ -79,7 +80,7 @@ export const Userstore = create((set, get) => ({
       let temp = response.data.map((msg) => msg)
     
       set({allmessages: temp})
-      console.log(`allmessagefesjf isss ${allmessages}`);
+      // console.log(`allmessagefesjf isss ${allmessages}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);
     }
@@ -87,8 +88,8 @@ export const Userstore = create((set, get) => ({
 
   sendMessage: async (message) => {
     const { receiver} = get();
-    console.log(`receiver si ${JSON.stringify(receiver)}`);
-    console.log(`receiver si ${JSON.stringify(receiver._id)}`);
+    // console.log(`receiver si ${JSON.stringify(receiver)}`);
+    // console.log(`receiver si ${JSON.stringify(receiver._id)}`);
     try {
       const response = await axios.post(
         `http://localhost:3000/sendMessage/${receiver._id}`, {message},
@@ -100,11 +101,6 @@ export const Userstore = create((set, get) => ({
         }
       );
       return response;
-
-      
-      console.log(`response.text ${response}`)
-      
-      console.log(`response is ${JSON.stringify(response.data)}`);
     } catch (error) {
       console.log("error is hrergghgh " + error);
     }
@@ -119,7 +115,7 @@ export const Userstore = create((set, get) => ({
         console.log("not found")
         return 
       }
-      console.log(`resss is thijf ${JSON.stringify(response)}`)
+      // console.log(`resss is thijf ${JSON.stringify(response)}`)
       set({isloggedIn: true})
       set({ currentsender: response.data})
       get().connectToSocket();
@@ -137,10 +133,15 @@ export const Userstore = create((set, get) => ({
       set({isloggedIn: false})
       set({currentsender: null})
       // console.log(`isssslogingin ${isloggedIn}`)
-      console.log(`logout response ${response}`)
+      // console.log(`logout response ${response}`)
       
     } catch (error) {
       console.log(`error is a f ${error}`)
     }
+  },
+
+  toggleSidebar: ()=>{
+    const {isSidebarVisible} = get();
+    set({isSidebarVisible: !isSidebarVisible})
   }
 }));

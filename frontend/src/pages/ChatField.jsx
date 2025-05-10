@@ -52,7 +52,7 @@ function ChatField() {
 
 
     return (
-        <div className='bg-[#232631] rounded-2xl h-[73vh] w-[60vw]  m-4  p-4 relative shadow-xl/20 shadow-blue-400'>
+        <div className='bg-[#232631] rounded-2xl h-[73vh] md:w-[60vw] w-[80vw]  m-4  p-4 relative shadow-xl/20 shadow-blue-400'>
             {
                 receiver.name ?
 

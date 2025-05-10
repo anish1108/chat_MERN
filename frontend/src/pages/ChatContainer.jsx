@@ -2,22 +2,15 @@ import React from 'react'
 import ContactHolder from './ContactHolder'
 import ChatField from './ChatField'
 import { useState } from 'react';
+import { Userstore } from '../store/userStore';
 
 function ChatContainer() {
 
-    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+    const {isSidebarVisible} = Userstore()
+    console.log(`issidevar is ${isSidebarVisible}`)
 
-    const toggleSidebar = () => {
-        setIsSidebarVisible(!isSidebarVisible);
-    };
     return (
         <div className="flex flex-row md:flex-row px-8">
-            <button
-                className="md:hidden  text-white p-2"
-                onClick={toggleSidebar}
-            >
-                {isSidebarVisible ? "Hide Sidebar" : "Show Sidebar"}
-            </button>
 
             <div
                 className={`${
@@ -27,7 +20,7 @@ function ChatContainer() {
                 <ContactHolder />
             </div>
 
-            <div className=" basis-2/3">
+            <div className={`${isSidebarVisible ? "hidden" : "block"} basis-2/3 md:block` }>
                 <ChatField />
             </div>
         </div>

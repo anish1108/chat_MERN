@@ -6,7 +6,7 @@ import { CgProfile } from "react-icons/cg";
 function ContactHolder() {
     // const resp = ["anish", "kumar", "prasad"]
     const [users, setUsers] = useState([])
-    const { currentReceiver, receiver } = Userstore()
+    const { currentReceiver, receiver, toggleSidebar } = Userstore()
 
     async function contactLoader() {
         try {
@@ -27,6 +27,7 @@ function ContactHolder() {
 
     const clickhandler = (user) => {
         currentReceiver(user);
+        toggleSidebar()
     }
 
     useEffect(() => {
@@ -39,7 +40,7 @@ function ContactHolder() {
     }, [receiver])
 
     return (
-        <div className='bg-[#232631] h-[73vh] w-[20vw] rounded-2xl m-4 p-4 shadow-xl/20 shadow-blue-400 overflow-y-scroll 
+        <div className='bg-[#232631] h-[73vh] md:w-[20vw] w-[70vw] rounded-2xl m-4 p-4 shadow-xl/20 shadow-blue-400 overflow-y-scroll 
         [&::-webkit-scrollbar]:w-1
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
