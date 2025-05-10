@@ -2,7 +2,7 @@ import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom"
 import Signup from "./pages/Signup"
-import ChatContainer from "./pages/chatContainer"
+import ChatContainer from "./pages/ChatContainer"
 import { useEffect, useState } from "react"
 import {io} from "socket.io-client"
 import Test from "./components/Test"
@@ -23,7 +23,7 @@ function App() {
   },[isloggedIn])
 
   useEffect(() => {
-          console.log(`current sender is ${JSON.stringify(currentsender)}`)
+          // console.log(`current sender is ${JSON.stringify(currentsender)}`)
           // console.log(`socket is ${JSON.stringify(socket)}`)
           if(isloggedIn){
               navigate("/home")

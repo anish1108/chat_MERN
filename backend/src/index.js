@@ -24,6 +24,9 @@ const io = new Server(httpServer, {
   },
 });
 
+
+const PORT = process.env.PORT
+
 const getreceiverSocket = (userId) => {
   return userSockets[userId];
 };
@@ -212,7 +215,7 @@ app.get("/logout", (req, res)=>{
   }
 })
 
-httpServer.listen(3000, () => {
-  console.log("port is started at 3000");
+httpServer.listen(PORT, () => {
+  console.log("port is started at " + PORT);
   connectdb();
 });

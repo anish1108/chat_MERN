@@ -21,7 +21,7 @@ function Login() {
     }
 
     return (
-        <div className='h-[90vh] flex justify-center items-center'>
+        <div className='h-[75vh] flex justify-center items-center'>
             <div className='bg-[#232631] py-32 px-16 rounded-2xl space-y-4 flex flex-col items-center'>
                 <h1 className='text-2xl'>Please Login here!!!!</h1>
                 <form className='flex flex-col justify-center items-center  space-y-4 text-white' onSubmit={loginhandler}>

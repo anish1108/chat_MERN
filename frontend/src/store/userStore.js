@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { axiosInstance } from "../utils/axios";
+
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000": "/"
 
 export const Userstore = create((set, get) => ({
   currentsender: null,
@@ -12,8 +15,8 @@ export const Userstore = create((set, get) => ({
 
   loginUser: async (email, password) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
+      const response = await axiosInstance.post(
+        "/login",
         {
           email,
           password,
@@ -46,7 +49,7 @@ export const Userstore = create((set, get) => ({
   connectToSocket: () => {
     const {currentsender} = get();
     console.log(`snedde f ${currentsender._id}`)
-    const socket = io("http://localhost:3000", {
+    const socket = io(BASE_URL, {
       withCredentials: true,
       query: {
         userId: currentsender._id
@@ -70,8 +73,8 @@ export const Userstore = create((set, get) => ({
     const {receiver, allmessages} = get();
     console.log(`userid si ${receiver._id}`);
     try {
-      const response = await axios.get(
-        `http://localhost:3000/messages/${receiver._id}`,
+      const response = await axiosInstance.get(
+        `/messages/${receiver._id}`,
         {
           withCredentials: true,
         }
@@ -91,8 +94,8 @@ export const Userstore = create((set, get) => ({
     // console.log(`receiver si ${JSON.stringify(receiver)}`);
     // console.log(`receiver si ${JSON.stringify(receiver._id)}`);
     try {
-      const response = await axios.post(
-        `http://localhost:3000/sendMessage/${receiver._id}`, {message},
+      const response = await axiosInstance.post(
+        `/sendMessage/${receiver._id}`, {message},
         {
           headers: {
             "Content-Type": "application/json",
@@ -108,7 +111,7 @@ export const Userstore = create((set, get) => ({
 
   validateUser: async()=>{
     try {
-      const response = await axios.get("http://localhost:3000/validateUser", {
+      const response = await axiosInstance.get("/validateUser", {
         withCredentials: true
       })
       if(!response){
@@ -127,7 +130,7 @@ export const Userstore = create((set, get) => ({
 
   logoutHandler: async()=>{
     try {
-      const response = await axios.get("http://localhost:3000/logout",{
+      const response = await axiosInstance.get("/logout",{
         withCredentials: true
       })
       set({isloggedIn: false})

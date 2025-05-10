@@ -3,6 +3,7 @@ import Input from '../components/Input'
 import Button from '../components/Button'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
+import { axiosInstance } from '../utils/axios';
 
 
 function Signup() {
@@ -19,7 +20,7 @@ function Signup() {
             return;
         }
         try {
-            const response = await axios.post("http://localhost:3000/signup",{
+            const response = await axiosInstance.post("/signup",{
                 name,
                 email,
                 password
@@ -41,7 +42,7 @@ function Signup() {
     }
 
     return (
-        <div className='h-[90vh] flex justify-center items-center '>
+        <div className='h-[75vh] flex justify-center items-center '>
             
             <form onSubmit={signupHandler} className='bg-[#232631] py-32 px-16 rounded-2xl space-y-4 flex flex-col items-center'>
             <div className='text-2xl'>Register Your Account</div>

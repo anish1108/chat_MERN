@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Userstore } from '../store/userStore'
 import { CgProfile } from "react-icons/cg";
+import { axiosInstance } from '../utils/axios';
 
 function ContactHolder() {
     // const resp = ["anish", "kumar", "prasad"]
@@ -11,7 +12,7 @@ function ContactHolder() {
     async function contactLoader() {
         try {
 
-            const response = await axios.get("http://localhost:3000/users", {
+            const response = await axiosInstance.get("/users", {
                 withCredentials: true
             })
             if (!response) {
