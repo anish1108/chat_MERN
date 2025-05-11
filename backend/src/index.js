@@ -225,13 +225,46 @@ app.get("/logout", (req, res)=>{
     res.status(502).json({message:"error hai"})
   }
 })
+console.log("it is nottt")
+// if(process.env.NODE_ENV==="production"){
+//   console.log("it is under")
+//   app.use(express.static(path.join(__dirname, "../frontend/dist")))
+//   console.log("his is 2")
 
-if(process.env.NODE_ENV==="production"){
-  app.use(express.static(path.join(__dirname, "../frontend/dist")))
+//   app.get("*", (req, res)=>{
+//     console.log(" is 3")
+//     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"))
+//     console.log("is 4")
+    
+//   })
+//   console.log("hif is 5")
+// }
 
-  app.get("/*", (req, res)=>{
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"))
-  })
+if (process.env.NODE_ENV === "production") {
+  console.log("Serving frontend in production mode...");
+  console.log(`dirname is ${path.join(__dirname, "../../frontend/dist")}`)
+
+  // Serve static files from the frontend's dist directory
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
+  app.get("/api", (req, res) => {
+  // res.send("This is an API route");
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"))
+});
+
+  // Handle all other routes by serving the frontend's index.html
+  // app.get("*", (req, res) => {
+    // res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"), (err) => {
+    //   if (err) {
+    //     console.error("Error serving index.html:", err);
+    //     res.status(500).send("Something went wrong while serving the frontend.");
+    //   }
+    // });
+    // res.send("hell there")
+    
+  // });
+
+  console.log("Frontend serving setup complete.");
 }
 
 httpServer.listen(PORT, () => {

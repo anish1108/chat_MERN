@@ -43,9 +43,9 @@ function App() {
       <div className="  h-[75vh]">
       <Routes>
           <Route path="/" element={isloggedIn?<ChatContainer/>: <Navigate to={"/login"}/> }/>
-          <Route path="home" element={<ChatContainer/>}/>
-          <Route path="login" element={<Login/>}/>
-          <Route path="signup" element={<Signup/>}/>
+          <Route path="/home" element={<ChatContainer/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/signup" element={<Signup/>}/>
       </Routes>
       </div>
     </div>
