@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 
 import mongoose from "mongoose";
 import User from "./db/userSchema.js";
-import "dotenv/config";
+import dotenv from "dotenv"
 import connectdb from "./db/connectionController.js";
 import generateToken from "./utils/tokengenerator.js";
 import validateUser from "./middlewares/validateUser.js";
@@ -25,9 +25,10 @@ const io = new Server(httpServer, {
   },
 });
 
-
+dotenv.config();
 const PORT = process.env.PORT;
 // const __dirname = path.resolve();
+
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
