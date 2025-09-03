@@ -66,7 +66,7 @@ function ChatField() {
                             </nav>
                         </div>
 
-                        <div className='p-4 py-8 bg-[url("C:\Users\Hp\OneDrive\Desktop\chatRepo\frontend\public\images\new2.png")] bg-repeat bg-white/30 backdrop-blur-sm h-[54vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
+                        <div className='p-4 py-8 bg-[url("\images\new2.png")] bg-repeat bg-white/30 backdrop-blur-sm h-[54vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
