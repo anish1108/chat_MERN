@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     // console.log(`current sender is ${JSON.stringify(currentsender)}`)
-    // console.log(`socket is ${JSON.stringify(socket)}`)
+    // console.log(`socket is ${JSON.stringify(socket)}`) this is trialgit 
     if (isloggedIn) {
       navigate("/home")
     } else {
