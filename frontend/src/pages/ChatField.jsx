@@ -52,21 +52,21 @@ function ChatField() {
 
 
     return (
-        <div className='bg-[#232631] rounded-2xl h-[73vh] md:w-[60vw] w-[80vw]  m-4  p-4 relative shadow-xl/20 shadow-blue-400'>
+        <div className='bg-[#2F3640] rounded-2xl h-[73vh] md:w-[60vw] w-[80vw]  m-4  p-4 relative shadow-sm/20 shadow-[#4AD8C5]'>
             {
                 receiver.name ?
 
-                    <div className='grid content-between p-2 gap-4'>
-                        <div className='px-2 flex items-center border-b border-[#3B3E46] hover:bg-[#3B3E46] rounded-2xl'>
+                    <div className=' flex flex-col p-2 gap-4 h-auto  '>
+                        <div className='bg-[#2a323d] px-2 flex items-center border-b border-[#3B3E46] hover:bg-[#4ad8c509] rounded-2xl'>
                             <div className='text-4xl'>
                                 <CgProfile />
                             </div>
-                            <nav className='  p-2 px-4 hover:cursor-pointer'>
+                            <nav className='text-[#F5F6FA]  p-2 px-4 hover:cursor-pointer'>
                                 {` ${receiver.name}`}
                             </nav>
                         </div>
 
-                        <div className='p-4 py-8 bg-radial-[at_25%_25%] from-[#3B3E46] to-[#232631] to-75% h-[50vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
+                        <div className='p-4 py-8 bg-[url("\images\new2.png")] bg-repeat bg-white/30 backdrop-blur-sm h-[54vh] rounded-2xl overflow-y-scroll [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:rounded-full
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:rounded-full
@@ -76,10 +76,11 @@ function ChatField() {
                             {
                                 allmessages.length > 0 ? (
                                     allmessages.map((msg, index) => (
-                                        <div key={msg._id} className={`${msg.senderId == currentsender._id ? "flex justify-end" : "justify-start"}`}>
-                                                <div className={`border p-1 px-4 border-[#3B3E46] bg-[#232631] rounded-lg m-1.5  text-gray-300  max-w-fit`} >
-                                                    {msg.text}
-                                                </div>
+                                        <div key={msg._id} className={`${msg.senderId == currentsender._id ? "flex justify-end " : "justify-start"}`}>
+                                            <div className={`border p-1 px-4 border-[#3B3E46] rounded-lg m-1.5  text-[#F5F6FA]  max-w-fit
+                                                ${msg.senderId === currentsender._id ? "bg-[#2f7d73]" : "bg-[#2F3640]"}`} >
+                                                {msg.text}
+                                            </div>
                                         </div>
                                         // ${msg.senderId === currentsender._id ? "bg-green-300" : "bg-red-600"} 
                                     ))
@@ -89,14 +90,15 @@ function ChatField() {
                             }
 
                             <div ref={messagesEndRef}></div>
-                            <div className='flex  justify-center items-center space-x-2 absolute bottom-0 w-[55vw]'>
-                                <div className='flex md:w-[60vw] gap-1 py-2'>
-                                    <input type="text" placeholder='Enter Messajjge' value={message} onChange={(e) => { setMessage(e.target.value) }}
-                                        className=' w-[85%] h-12 bg-[#3B3E46] px-4 rounded-2xl' />
-                                    <button name='Send' type='submit' onClick={sendMessagehandler}
-                                        className=' w-15 bg-blue-400 rounded-2xl hover:bg-blue-500'
-                                    >Send</button>
-                                </div>
+
+                        </div>
+                        <div className='flex  justify-center items-center space-x-2 absolute bottom-0 w-[60vw] '>
+                            <div className='flex md:w-[60vw] gap-1 py-2'>
+                                <input type="text" placeholder='Enter Message' value={message} onChange={(e) => { setMessage(e.target.value) }}
+                                    className=' w-[85%] h-12 bg-[#3B3E46] text-[#CED4DA] px-4 rounded-2xl' />
+                                <button name='Send' type='submit' onClick={sendMessagehandler}
+                                    className=' w-15 bg-[#4AD8C5] rounded-2xl '
+                                >Send</button>
                             </div>
                         </div>
 

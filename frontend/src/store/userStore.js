@@ -133,10 +133,12 @@ export const Userstore = create((set, get) => ({
       const response = await axiosInstance.get("/logout",{
         withCredentials: true
       })
+      console.log("this is vefor" + isloggedIn)
       set({isloggedIn: false})
+      console.log("later" + isloggedIn)
       set({currentsender: null})
       // console.log(`isssslogingin ${isloggedIn}`)
-      // console.log(`logout response ${response}`)
+      console.log(`logout response ${response}`)
       
     } catch (error) {
       console.log(`error is a f ${error}`)
